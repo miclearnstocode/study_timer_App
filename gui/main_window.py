@@ -1,7 +1,10 @@
 import tkinter as tk
-from .user_form import UserForm
-from .timer_view import TimerView
+import os, sys
+# Add parent directory (study_timer_App) to sys.path
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+from gui.user_form import UserForm
+from gui.timer_view import TimerView
 class MainWindow(tk.Frame):   # Inherit from Frame
     def __init__(self, root):
         super().__init__(root)  # initialize Frame

@@ -1,7 +1,9 @@
-import tkinter as tk
-from PIL import Image, ImageTk
+import os
+from PIL import Image
+import customtkinter as ctk
 from gui.main_window import MainWindow
 from database.connection import DatabaseConnection
+
 
 def main():
     # Initialize database
@@ -9,22 +11,37 @@ def main():
     db.initialize()
 
     # Start GUI
-    root = tk.Tk()
+    ctk.set_appearance_mode("dark")   # "light" or "dark"
+    ctk.set_default_color_theme("dark-blue")  # "blue", "green", "dark-blue"
+
+    root = ctk.CTk()
     root.title("Study Timer App")
-    root.geometry("400x300")
-    # Load and resize background image
-    image = Image.open("study_timer_App/assests/study_timer.jpg")  # <-- fixed "assets"
-    image = image.resize((400, 300))  # resize to match window size
-    photo = ImageTk.PhotoImage(image)
-    
-    # Set background as a label
-    background_label = tk.Label(root, image=photo)
-    background_label.image = photo   # keep reference to avoid garbage collection
+    root.geometry("400x400")
+    root.resizable(False, False)  # Disable resizing
+
+
+    # Dynamically load background image
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # absolute path
+    image_path = os.path.join(BASE_DIR, "assets", "study_timer.jpg")
+    print(f"[DEBUG] Looking for image at: {image_path}")  # debug line
+
+    if not os.path.exists(image_path):
+        print(f"[ERROR] Image not found at {image_path}")
+        return
+
+    # Use CTkImage (handles scaling + DPI correctly)
+    bg_image = ctk.CTkImage(light_image=Image.open(image_path), dark_image=Image.open(image_path), size=(400, 400))
+
+    # Background image on CTkLabel
+    background_label = ctk.CTkLabel(root, text="", image=bg_image)
     background_label.place(x=0, y=0, relwidth=1, relheight=1)
-    
+
+    # Main window content (above background)
     app = MainWindow(root)
-    app.pack(fill=tk.BOTH, expand=True)
+    app.place(relx=0.5, rely=0.5, anchor="center")
+
     root.mainloop()
+
 
 if __name__ == "__main__":
     main()
