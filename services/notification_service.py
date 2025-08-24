@@ -10,7 +10,7 @@ class NotificationService(NotifierInterface):
 
         # Get project root (parent of "services")
         PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        self.sound_file = os.path.join(PROJECT_ROOT, "assets", "sounds", sound_name)
+        self.sound_file = os.path.join(PROJECT_ROOT, "assets", "sound", sound_name)
 
         # Ensure file exists
         if not os.path.exists(self.sound_file):
