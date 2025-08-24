@@ -2,7 +2,6 @@ import customtkinter as ctk
 import re
 from tkinter import messagebox
 
-
 class UserForm(ctk.CTkFrame):
     def __init__(self, parent, on_submit_callback):
         super().__init__(parent, corner_radius=15)
@@ -127,6 +126,7 @@ class UserForm(ctk.CTkFrame):
 
         duration = int(duration_str)
         self.on_submit_callback(name, duration)
+        
 
         # Reset fields and counters
         self.name_entry.delete(0, 'end')

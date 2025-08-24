@@ -16,7 +16,7 @@ def main():
 
     root = ctk.CTk()
     root.title("Study Timer App")
-    root.geometry("400x400")
+    root.geometry("600x500")
     root.resizable(False, False)  # Disable resizing
 
 
@@ -30,7 +30,7 @@ def main():
         return
 
     # Use CTkImage (handles scaling + DPI correctly)
-    bg_image = ctk.CTkImage(light_image=Image.open(image_path), dark_image=Image.open(image_path), size=(400, 400))
+    bg_image = ctk.CTkImage(light_image=Image.open(image_path), dark_image=Image.open(image_path), size=(600, 500))
 
     # Background image on CTkLabel
     background_label = ctk.CTkLabel(root, text="", image=bg_image)
