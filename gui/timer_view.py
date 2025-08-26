@@ -4,12 +4,13 @@ from services.timer_services import TimerService
 from services.notification_service import NotificationService
 
 class TimerView(ctk.CTkFrame):
-    def __init__(self, parent, user_name, duration_minutes):
+    def __init__(self, parent, user_name, duration_minutes, sound_file=None):
         super().__init__(parent)
         self.user_name = user_name
         self.duration_seconds = duration_minutes * 60
         self.remaining = self.duration_seconds
         self.timer_service = None
+        self.sound_file = sound_file
 
         # Label for user
         self.label = ctk.CTkLabel(self, text=f"{self.user_name}, Ready to Study!", font=("Helvetica", 16))
@@ -36,8 +37,7 @@ class TimerView(ctk.CTkFrame):
             self.remaining -= 1
             self.after(1000, self.update_display)
         elif self.remaining == 0:
-            notifier = NotificationService()
-            notifier.notify("⏰ Time’s up! Take a break!")
+            self.timer_finished()
 
     def start_timer(self):
         if not self.timer_service:
@@ -53,4 +53,6 @@ class TimerView(ctk.CTkFrame):
             self.label.configure(text="⏹ Timer Stopped.")
 
     def timer_finished(self):
+        notifier = NotificationService(sound_file=self.sound_file)
+        notifier.notify("⏰ Time’s up! Take a break!")
         self.label.configure(text="✅ Session Completed!")

@@ -1,6 +1,7 @@
 import customtkinter as ctk
 import re
 from tkinter import messagebox
+from tkinter import filedialog
 
 class UserForm(ctk.CTkFrame):
     def __init__(self, parent, on_submit_callback):
@@ -33,11 +34,29 @@ class UserForm(ctk.CTkFrame):
         self.duration_error = ctk.CTkLabel(self, text="", text_color="red", font=("Helvetica", 11))
         self.duration_error.pack(anchor="w", pady=(0, 12), padx=22)
 
+        # === Sound Upload Section ===
+        self.label_sound = ctk.CTkLabel(self, text="Custom Sound (optional):", font=("Helvetica", 14))
+        self.label_sound.pack(anchor="w", pady=(0, 2), padx=20)
+
+        self.sound_entry = ctk.CTkEntry(self, placeholder_text="No file chosen", corner_radius=15, border_width=2)
+        self.sound_entry.pack(pady=(0, 2), padx=20, fill="x")
+
+        self.sound_btn = ctk.CTkButton(self, text="Browse", command=self.choose_sound, corner_radius=15)
+        self.sound_btn.pack(pady=(0, 8), padx=20)
+        
         # === Submit Button ===
         self.submit_btn = ctk.CTkButton(self, text="Start", font=("Helvetica", 14), command=self.submit, corner_radius=15)
         self.submit_btn.pack(pady=10)
         self.submit_btn.configure(state="disabled")  # initially disabled
-
+        
+    def choose_sound(self):
+        """Let user upload a custom mp3/wav file."""
+        file_path = filedialog.askopenfilename(title="Select Notification Sound", filetypes=[("Audio Files", "*.mp3 *.wav")])
+        if file_path:
+            self.custom_sound_path = file_path
+            self.sound_entry.delete(0, "end")
+            self.sound_entry.insert(0, file_path)
+            
      #Live Validation
     def live_validate_name(self, event=None):
         self.capitalize_name()  # Capitalize name on entry
@@ -115,6 +134,7 @@ class UserForm(ctk.CTkFrame):
     def submit(self):
         name = self.name_entry.get().strip()
         duration_str = self.duration_entry.get().strip()
+        sound = self.sound_entry.get().strip()
 
         if not re.match(r"^[A-Za-z ]+$", name):
             messagebox.showerror("Invalid Input", "Name must contain only letters and spaces.")
@@ -125,12 +145,14 @@ class UserForm(ctk.CTkFrame):
             return
 
         duration = int(duration_str)
-        self.on_submit_callback(name, duration)
+        self.on_submit_callback(name, duration, sound)
         
 
         # Reset fields and counters
         self.name_entry.delete(0, 'end')
         self.duration_entry.delete(0, 'end')
+        self.sound_entry.delete(0, 'end')  # clear sound field
+        self.custom_sound_path = None
         self.name_entry.configure(border_color="gray")
         self.duration_entry.configure(border_color="gray")
         self.name_error.configure(text="")

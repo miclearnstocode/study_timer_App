@@ -5,20 +5,24 @@ import os
 
 
 class NotificationService(NotifierInterface):
-    def __init__(self, sound_name="i_feel_good.mp3"):
+    def __init__(self, sound_file=None, default_sound="i_feel_good.mp3"):
         pygame.mixer.init()
 
-        # Get project root (parent of "services")
+        # Get project root
         PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        self.sound_file = os.path.join(PROJECT_ROOT, "assets", "sound", sound_name)
+        sounds_dir = os.path.join(PROJECT_ROOT, "assets", "sound")
 
-        # Ensure file exists
+        # If no custom sound given, fallback to default
+        if sound_file and os.path.exists(sound_file):
+            self.sound_file = sound_file
+        else:
+            self.sound_file = os.path.join(sounds_dir, default_sound)
+
         if not os.path.exists(self.sound_file):
             print(f"[WARNING] Sound file {self.sound_file} not found. No sound will play.")
 
     def notify(self, message: str):
-        """Show a notification with sound + messagebox."""
-        # Play sound if file exists
+        """Play sound + show popup."""
         if os.path.exists(self.sound_file):
             try:
                 pygame.mixer.music.load(self.sound_file)
@@ -26,9 +30,8 @@ class NotificationService(NotifierInterface):
             except Exception as e:
                 print(f"[ERROR] Could not play sound: {e}")
 
-        # Show Tkinter popup
         msg.showinfo("Study Timer", message)
         print(f"Notification: {message}")
-        # Stop sound after messagebox is closed
+
         if os.path.exists(self.sound_file):
             pygame.mixer.music.stop()

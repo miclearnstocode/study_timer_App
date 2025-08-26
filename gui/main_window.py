@@ -23,11 +23,11 @@ class MainWindow(tk.Frame):   # Inherit from Frame
         self.user_form.pack(fill="both", expand=True)
         self.timer_view = None
 
-    def show_timer_view(self, user_name, duration):
+    def show_timer_view(self, user_name, duration, sound_file=None):
         # Save user first
-        print(f"[DEBUG] Saving user {user_name} to DB...")
-        user_id = self.repo.add_user(user_name)
-        print(f"[DEBUG] Inserted user_id = {user_id}")
+        print(f"[DEBUG] Saving user {user_name, sound_file} to DB...")
+        user_id = self.repo.add_user(user_name, sound_file)
+        print(f"[DEBUG] Inserted user_id = {user_id, sound_file}")
 
         # Save session
         print(f"[DEBUG] Starting session for user_id={user_id}, duration={duration}")
@@ -36,6 +36,6 @@ class MainWindow(tk.Frame):   # Inherit from Frame
 
         # Switch views
         self.user_form.pack_forget()
-        self.timer_view = TimerView(self, user_name, duration)
+        self.timer_view = TimerView(self, user_name, duration, sound_file)
         self.timer_view.pack(fill="both", expand=True)
 

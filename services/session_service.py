@@ -9,10 +9,7 @@ class SessionService:
     def save_session(self, user_id: int, duration: int):
         conn = self.db.connect()
         cursor = conn.cursor()
-        cursor.execute(
-            "INSERT INTO sessions (user_id, duration) VALUES (?, ?)",
-            (user_id, duration)
-        )
+        cursor.execute("INSERT INTO sessions (user_id, duration) VALUES (?, ?)",(user_id, duration))
         conn.commit()
         return cursor.lastrowid
 
