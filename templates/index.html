@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="form-container">
+  <h2>🎓 Study Timer App</h2>
+  <form method="POST" enctype="multipart/form-data">
+    <label>Enter your name:</label>
+    <input type="text" name="name" required pattern="[A-Za-z ]+">
+
+    <label>Study duration (minutes):</label>
+    <input type="number" name="duration" min="1" required>
+
+    <label>Custom Sound (optional):</label>
+    <input type="file" name="sound" accept=".mp3,.wav">
+
+    <button type="submit">▶ Start</button>
+  </form>
+</div>
+{% endblock %}

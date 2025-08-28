@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="sessions-container">
+  <h2>📊 Study Sessions for {{ user.name }}</h2>
+
+  <p>Total Sessions: <strong>{{ count }}</strong></p>
+  {% if last_completed %}
+    <p>Last Completed: {{ last_completed }}</p>
+  {% endif %}
+
+  <table border="1" cellpadding="6" cellspacing="0">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Duration (minutes)</th>
+        <th>Completed At</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for s in sessions %}
+      <tr>
+        <td>{{ s[0] }}</td>
+        <td>{{ s[1] }}</td>
+        <td>{{ s[2] }}</td>
+      </tr>
+      {% else %}
+      <tr>
+        <td colspan="3">No sessions found</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <!-- Back to Home Button -->
+  <div style="margin-top: 20px;">
+    <button onclick="window.location.href='{{ url_for('user.index') }}'">⬅ Back to Home</button>
+  </div>
+</div>
+
+<script>
+  // Fire confetti if there's at least one session
+  {% if count > 0 %}
+  playConfetti();
+  playCelebrationSound();
+  {% endif %}
+</script>
+{% endblock %}

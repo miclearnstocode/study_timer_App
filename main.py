@@ -1,47 +1,23 @@
-import os
-from PIL import Image
-import customtkinter as ctk
-from gui.main_window import MainWindow
+from flask import Flask
 from database.connection import DatabaseConnection
+from routes.user_routes import user_bp
+from routes.timer_routes import timer_bp
+from routes.session_routes import session_bp
 
+def create_app():
+    app = Flask(__name__)
 
-def main():
     # Initialize database
     db = DatabaseConnection()
     db.initialize()
 
-    # Start GUI
-    ctk.set_appearance_mode("dark")   # "light" or "dark"
-    ctk.set_default_color_theme("dark-blue")  # "blue", "green", "dark-blue"
+    # Register blueprints
+    app.register_blueprint(session_bp)
+    app.register_blueprint(user_bp)
+    app.register_blueprint(timer_bp)
 
-    root = ctk.CTk()
-    root.title("Study Timer App")
-    root.geometry("600x500")
-    root.resizable(False, False)  # Disable resizing
-
-
-    # Dynamically load background image
-    BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # absolute path
-    image_path = os.path.join(BASE_DIR, "assets", "study_timer.jpg")
-    print(f"[DEBUG] Looking for image at: {image_path}")  # debug line
-
-    if not os.path.exists(image_path):
-        print(f"[ERROR] Image not found at {image_path}")
-        return
-
-    # Use CTkImage (handles scaling + DPI correctly)
-    bg_image = ctk.CTkImage(light_image=Image.open(image_path), dark_image=Image.open(image_path), size=(600, 500))
-
-    # Background image on CTkLabel
-    background_label = ctk.CTkLabel(root, text="", image=bg_image)
-    background_label.place(x=0, y=0, relwidth=1, relheight=1)
-
-    # Main window content (above background)
-    app = MainWindow(root)
-    app.place(relx=0.5, rely=0.5, anchor="center")
-
-    root.mainloop()
-
+    return app
 
 if __name__ == "__main__":
-    main()
+    app = create_app()
+    app.run(debug=True)

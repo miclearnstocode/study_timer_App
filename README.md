@@ -14,40 +14,56 @@ Notify user when time is up
 Track completed study sessions per user
 
 Folder Structure
+
 StudyTimerApp/
 │
-├── main.py                        # Entry point of the app
+├── main.py                         # Flask entry point
 │
-├── database/                      # Database layer (SQLite3)
+├── database/
 │   ├── __init__.py
-│   ├── connection.py               # Handles SQLite connection
-│   └── user_repository.py          # CRUD for users and sessions
+│   ├── connection.py                # Handles SQLite3 connection
+│   └── user_repository.py           # User-related DB operations (CRUD)
 │
-├── models/                        # Data models (OOP)
+├── models/
 │   ├── __init__.py
-│   ├── user.py
-│   └── session.py
+│   ├── user.py                      # User class (OOP model)
+│   └── session.py                   # Study session class (OOP model)
 │
-├── services/                      # Business logic
+├── services/
 │   ├── __init__.py
-│   ├── timer_service.py
-│   ├── notification_service.py
-│   └── session_service.py
+│   ├── timer_service.py             # Handles study/break timer logic
+│   ├── notification_service.py      # Handles notifications (ISP applied)
+│   └── session_service.py           # Manages study session tracking
 │
-├── interfaces/                    # Interfaces (ISP applied)
+├── interfaces/
 │   ├── __init__.py
-│   ├── notifier_interface.py
-│   └── timer_interface.py
+│   ├── notifier_interface.py        # Interface for notifications (ISP)
+│   └── timer_interface.py           # Interface for timer (ISP)
 │
-├── gui/                           # Tkinter GUI components
+├── routes/
 │   ├── __init__.py
-│   ├── main_window.py
-│   ├── user_form.py
-│   └── timer_view.py
+│   ├── user_routes.py               # User input routes
+│   ├── timer_routes.py              # Timer actions (start, stop)
+│   └── session_routes.py            # Completed session tracking
 │
-└── utils/                         # Helper functions
+├── templates/                       # Jinja2 HTML templates
+│   ├── base.html                    # Base layout
+│   ├── index.html                   # Landing page (user form)
+│   ├── timer.html                   # Timer UI (start/stop buttons)
+│   └── sessions.html                # Completed sessions page
+│
+├── static/                          # CSS/JS/Images
+│   ├── css/
+│   │   └── style.css                # Styling
+│   ├── js/
+│   │   └── timer.js                 # Timer countdown logic (frontend)
+│   └── images/
+│       └── logo.png
+│
+└── utils/
     ├── __init__.py
-    └── helpers.py
+    └── helpers.py                   # Utility/helper functions
+
 
 
 User Flow

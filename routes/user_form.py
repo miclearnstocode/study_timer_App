@@ -7,6 +7,7 @@ class UserForm(ctk.CTkFrame):
     def __init__(self, parent, on_submit_callback):
         super().__init__(parent, corner_radius=15)
         self.on_submit_callback = on_submit_callback
+        
 
         # Counter for invalid duration attempts
         self.duration_invalid_count = 0
@@ -33,7 +34,15 @@ class UserForm(ctk.CTkFrame):
 
         self.duration_error = ctk.CTkLabel(self, text="", text_color="red", font=("Helvetica", 11))
         self.duration_error.pack(anchor="w", pady=(0, 12), padx=22)
+        
+        # === Session Info Display ===
+        self.session_info = ctk.CTkLabel(self, text="No sessions yet", font=("Helvetica", 12))
+        self.session_info.pack(anchor="w", pady=(10, 2), padx=20)
 
+        # Refresh session display if user_id is known
+        if self.user_id:
+            self.update_session_info()
+            
         # === Sound Upload Section ===
         self.label_sound = ctk.CTkLabel(self, text="Custom Sound (optional):", font=("Helvetica", 14))
         self.label_sound.pack(anchor="w", pady=(0, 2), padx=20)
@@ -56,7 +65,15 @@ class UserForm(ctk.CTkFrame):
             self.custom_sound_path = file_path
             self.sound_entry.delete(0, "end")
             self.sound_entry.insert(0, file_path)
-            
+    def update_session_info(self):
+        """Update session count + last completed date."""
+        count, last_completed = self.session.get_session_summary(self.user_id)
+        if count == 0:
+            self.session_info.configure(text="No sessions completed yet")
+        else:
+            self.session_info.configure(
+                text=f"✅ {count} sessions completed\nLast: {last_completed}")
+                    
      #Live Validation
     def live_validate_name(self, event=None):
         self.capitalize_name()  # Capitalize name on entry

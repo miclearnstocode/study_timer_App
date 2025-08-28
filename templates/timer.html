@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- Timer Container -->
+<div id="main-content" class="timer-container">
+  <h2>{{ user_name }}, Ready to Study!</h2>
+  <div id="time-display">{{ duration }}:00</div>
+  <button id="start-btn">▶ Start Timer</button>
+  <button id="stop-btn" disabled>⏹ Stop Timer</button>
+
+  <!-- Back to Home Button -->
+  <div style="margin-top: 20px;">
+    <button onclick="window.location.href='{{ url_for('user.index') }}'">⬅ Back to Home</button>
+  </div>
+</div>
+
+<script>
+let duration = {{ duration }} * 60;
+let remaining = duration;
+let interval = null;
+
+function formatTime(seconds) {
+  let h = Math.floor(seconds / 3600);
+  let m = Math.floor((seconds % 3600) / 60);
+  let s = seconds % 60;
+  return [h,m,s].map(v => String(v).padStart(2,'0')).join(":");
+}
+
+document.getElementById("start-btn").onclick = () => {
+  if (!interval) {
+    interval = setInterval(() => {
+      document.getElementById("time-display").innerText = formatTime(remaining);
+      if (remaining > 0) {
+        remaining--;
+      } else {
+        clearInterval(interval);
+        interval = null;
+
+        alert("⏰ Time’s up! Take a break!");
+
+        // Confetti + browser sound
+        playConfetti();
+        playCelebrationSound();
+
+        // Default or custom sound
+        let soundFile = "{{ url_for('static', filename='sound/i_feel_good.mp3') }}";
+        new Audio(soundFile).play();
+
+        // Change main content after session ends
+        document.getElementById("main-content").innerHTML = `
+            <h2>✅ Session Completed!</h2>
+            <p>Great job, {{ user_name }}!</p>
+            <button onclick="window.location.href='{{ url_for('user.index') }}'">➕ Start New Session</button>
+            <button onclick="window.location.href='{{ url_for('sessions.sessions', user_id=user_id) }}'">📊 View All Sessions</button>
+        `;
+      }
+    }, 1000);
+    document.getElementById("stop-btn").disabled = false;
+  }
+};
+
+document.getElementById("stop-btn").onclick = () => {
+  if (interval) {
+    clearInterval(interval);
+    interval = null;
+    alert("⏹ Timer Stopped.");
+    document.getElementById("stop-btn").disabled = true;
+  }
+};
+</script>
+{% endblock %}
