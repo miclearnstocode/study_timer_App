@@ -5,7 +5,7 @@ Date: August 21, 2025
 Project Overview
 The Study Timer App is a simple and effective tool that helps users manage their study sessions using focused time intervals and breaks. It improves concentration, reduces procrastination, and helps build better study habits for long-term productivity.
 
-Built with Python, Tkinter(GUI), SQLite3 (Database), and following OOP Principles with SRP (Single Responsibility Principle).
+Built with Flask Framework, Jinja2 scripting engine, SQLite3 (Database), and following OOP Principles with SRP (Single Responsibility Principle).
 
 Main Features
 Set custom study duration
@@ -81,11 +81,13 @@ git clone https://github.com/yourusername/StudyTimerApp.git
 cd StudyTimerApp
 
 2. Make sure you have Python 3.10+ installled
-3. Install required dependencies (Tkinter is usually bundled with python)
-pip install -r requirements.txt
+3. Install required dependencies please type it in powershell. -> pip install -r requirements.txt
 
 Running the App
 python main.py
+
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5000 -> click the url to visit study timer app
 
 Database
 Uses SQLite3 (study_timer.db)
