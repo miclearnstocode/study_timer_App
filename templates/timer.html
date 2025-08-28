@@ -4,27 +4,46 @@
 <!-- Timer Container -->
 <div id="main-content" class="timer-container">
   <h2>{{ user_name }}, Ready to Study!</h2>
-  <div id="time-display">{{ duration }}:00</div>
-  <button id="start-btn">▶ Start Timer</button>
-  <button id="stop-btn" disabled>⏹ Stop Timer</button>
+  <div id="time-display">{{ duration }}</div>
 
-  <!-- Back to Home Button -->
+  <!-- Start Timer -->
+  <button id="start-btn" class="start-btn">
+    <img src="{{ url_for('static', filename='images/play.png') }}" class="btn-icon" alt="Play"> Start Timer
+  </button>
+
+  <!-- Stop Timer -->
+  <button id="stop-btn" class="stop-btn" disabled>
+    <img src="{{ url_for('static', filename='images/stop2.png') }}" class="btn-icon" alt="Stop"> Stop Timer
+  </button>
+
+  <!-- Back to Home -->
   <div style="margin-top: 20px;">
-    <button onclick="window.location.href='{{ url_for('user.index') }}'">⬅ Back to Home</button>
+    <button class="back-btn" onclick="window.location.href='{{ url_for('user.index') }}'">
+      <img src="{{ url_for('static', filename='images/back.png') }}" class="btn-icon" alt="Back">Back to Home
+    </button>
   </div>
 </div>
 
+
 <script>
 let duration = {{ duration }} * 60;
-let remaining = duration;
+let remaining = {{ duration }};  // duration is already in seconds
 let interval = null;
 
 function formatTime(seconds) {
   let h = Math.floor(seconds / 3600);
   let m = Math.floor((seconds % 3600) / 60);
   let s = seconds % 60;
-  return [h,m,s].map(v => String(v).padStart(2,'0')).join(":");
+  if (h > 0) {
+    return [h, m, s].map(v => String(v).padStart(2,'0')).join(":");
+  } else {
+    return [m, s].map(v => String(v).padStart(2,'0')).join(":");
+  }
 }
+
+// Set initial display
+document.getElementById("time-display").innerText = formatTime(remaining);
+
 
 document.getElementById("start-btn").onclick = () => {
   if (!interval) {

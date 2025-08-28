@@ -91,3 +91,118 @@ th {
 td {
     background: rgba(255, 255, 255, 0.05);
 }
+
+/* Timer Display Styling with Multi-Color Glow */
+#time-display {
+  font-size: 4.5rem;
+  font-weight: 800;
+  text-align: center;
+  margin: 20px 0;
+  padding: 15px 30px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #ff6ec4, #7873f5, #00c6ff, #00ffcc, #f9f871);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0px 0px 6px rgba(255, 255, 255, 0.7);
+  animation: glow-pulse 3s infinite alternate ease-in-out;
+}
+
+/* Timer Display Styling with Gradient Text + Subtle Glow */
+#time-display {
+  font-size: 4.5rem;
+  font-weight: 800;
+  text-align: center;
+  margin: 20px 0;
+  padding: 15px 30px;
+  border-radius: 20px;
+
+  /* Gradient effect inside the text */
+  background: linear-gradient(135deg, #ff6ec4, #7873f5, #00c6ff, #00ffcc, #f9f871);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+
+  /* Subtle glow to make numbers pop */
+  text-shadow: 0px 0px 4px rgba(255, 255, 255, 0.5);
+
+  /* Gradient shimmer animation */
+  background-size: 300% 300%;
+  animation: gradient-move 6s ease infinite;
+}
+
+
+/* Animate the gradient across the text */
+@keyframes gradient-move {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+
+.start-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px; /* space between icon and text */
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  background: linear-gradient(135deg, #0d47a1, #42a5f5);
+  color: white;
+  transition: transform 0.2s ease, background 0.3s ease;
+}
+
+.start-btn:hover {
+  background: linear-gradient(135deg, #42a5f5, #0d47a1);
+  transform: scale(1.05);
+}
+
+.btn-icon {
+  width: 20px;
+  height: 20px;
+}
+
+/* Stop Button */
+.stop-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  background: linear-gradient(135deg, #b71c1c, #e53935); /* deep red gradient */
+  color: white;
+  transition: transform 0.2s ease, background 0.3s ease;
+}
+
+.stop-btn:hover {
+  background: linear-gradient(135deg, #e53935, #b71c1c);
+  transform: scale(1.05);
+}
+
+/* Back to Home Button */
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  background: linear-gradient(135deg, #004d40, #26a69a); /* teal/green gradient */
+  color: white;
+  transition: transform 0.2s ease, background 0.3s ease;
+}
+
+.back-btn:hover {
+  background: linear-gradient(135deg, #26a69a, #004d40);
+  transform: scale(1.05);
+}
