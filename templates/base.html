@@ -10,9 +10,10 @@
     <h1>📚 Study Timer App</h1>
   </header>
 
-  <main>
+  <main id="page-transition" class="slide-in">
     {% block content %}{% endblock %}
   </main>
+
 
   <footer>
     <p>© Python Class of 2025</p>
@@ -31,6 +32,31 @@ function playCelebrationSound() {
     let audio = new Audio("{{ url_for('static', filename='sounds/success.mp3') }}");
     audio.play();
 }
+</script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const container = document.getElementById("page-transition");
+
+    document.querySelectorAll("a, button[onclick]").forEach(link => {
+      link.addEventListener("click", (e) => {
+        let href = link.getAttribute("href");
+        let onclick = link.getAttribute("onclick");
+
+        if ((href && !href.startsWith("#")) || onclick?.includes("window.location.href")) {
+          e.preventDefault();
+          container.classList.add("slide-out");
+
+          setTimeout(() => {
+            if (href) {
+              window.location.href = href;
+            } else if (onclick) {
+              eval(onclick.replace("window.location.href=", ""));
+            }
+          }, 400); // match slideOut duration
+        }
+      });
+    });
+  });
 </script>
 </body>
 </html>

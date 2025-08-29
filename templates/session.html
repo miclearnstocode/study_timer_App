@@ -2,34 +2,34 @@
 
 {% block content %}
 <div class="sessions-container">
-  <h2>📊 Study Sessions for {{ user.name }}</h2>
+  <div class="session-header">
+    <h2>📊 Study Sessions for {{ user["name"] }}</h2>
 
-  <p>Total Sessions: <strong>{{ count }}</strong></p>
-  {% if last_completed %}
-    <p>Last Completed: {{ last_completed }}</p>
-  {% endif %}
+    <p>Total Sessions: <strong>{{ count }}</strong></p>
+    {% if last_completed %}
+      <p>Last Completed: {{ last_completed.strftime("%B %d, %Y %I:%M %p") }}</p>
+    {% endif %}
+  </div>
 
-  <table border="1" cellpadding="6" cellspacing="0">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Duration (minutes)</th>
-        <th>Completed At</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for s in sessions %}
-      <tr>
-        <td>{{ s[0] }}</td>
-        <td>{{ s[1] }}</td>
-        <td>{{ s[2] }}</td>
-      </tr>
-      {% else %}
-      <tr>
-        <td colspan="3">No sessions found</td>
-      </tr>
-      {% endfor %}
-    </tbody>
+  <table>
+    <tr>
+      <th>Duration</th>
+      <th>Date</th>
+    </tr>
+    {% for s in sessions %}
+    <tr>
+      <td>
+        {% set hours = (s.duration // 60) %}
+        {% set minutes = (s.duration % 60) %}
+        {% if hours > 0 %}
+          {{ hours }}:{{ "%02d"|format(minutes) }}
+        {% else %}
+          {{ minutes }} min
+        {% endif %}
+      </td>
+      <td>{{ s.completed_at.strftime("%B %d, %Y %I:%M %p") }}</td>
+    </tr>
+    {% endfor %}
   </table>
 
   <!-- Back to Home Button -->

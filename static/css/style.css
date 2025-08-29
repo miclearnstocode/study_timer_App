@@ -71,26 +71,60 @@ button:hover {
     transform: scale(1.08);
 }
 
-/* Table styling for sessions */
+/* Modern Table Styling */
 table {
     width: 100%;
-    margin-top: 1rem;
+    margin-top: 1.5rem;
     border-collapse: collapse;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
 
-th, td {
-    padding: 0.8rem;
-    border: 1px solid #1e6091;
-    text-align: center;
-}
-
+/* Table Header */
 th {
-    background: rgba(0, 150, 199, 0.3);
+    padding: 1rem;
+    text-align: left;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #ffffff;
+    background: linear-gradient(135deg, #0077b6, #00b4d8, #90e0ef);
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
+/* Table Cells */
 td {
+    padding: 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #f0f4f8;
     background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(6px);
+    transition: background 0.3s ease, transform 0.2s ease;
 }
+
+/* Row Hover Effect */
+tr:hover td {
+    background: linear-gradient(135deg, rgba(0,183,255,0.2), rgba(0,255,200,0.2));
+    transform: scale(1.01);
+}
+
+/* Alternate Row Shading */
+tr:nth-child(even) td {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+/* Rounded corners for the first & last cell in each row */
+tr td:first-child {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+tr td:last-child {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
 
 /* Timer Display Styling with Multi-Color Glow */
 #time-display {
@@ -204,5 +238,117 @@ td {
 
 .back-btn:hover {
   background: linear-gradient(135deg, #26a69a, #004d40);
+  transform: scale(1.05);
+}
+.new-session-btn, .view-sessions-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px; /* space between icon and text */
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  transition: transform 0.2s ease, background 0.3s ease;
+}
+
+/* Start New Session button */
+.new-session-btn {
+  background: linear-gradient(135deg, #1b5e20, #4caf50);
+}
+.new-session-btn:hover {
+  background: linear-gradient(135deg, #4caf50, #1b5e20);
+  transform: scale(1.05);
+}
+
+/* View All Sessions button */
+.view-sessions-btn {
+  background: linear-gradient(135deg, #1565c0, #42a5f5);
+}
+.view-sessions-btn:hover {
+  background: linear-gradient(135deg, #42a5f5, #1565c0);
+  transform: scale(1.05);
+}
+/*align the header at the session left align*/
+.session-header {
+  text-align: left;
+}
+
+/* Slide-in animation */
+.slide-in {
+  animation: slideIn 0.6s ease forwards;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* Slide-out animation */
+.slide-out {
+  animation: slideOut 0.4s ease forwards;
+}
+
+@keyframes slideOut {
+  from { opacity: 1; transform: translateX(0); }
+  to { opacity: 0; transform: translateX(-30px); }
+}
+
+/* Popup Overlay */
+.popup {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+.popup.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Popup Box */
+.popup-content {
+  background: linear-gradient(135deg, #1b263b, #0d3b66, #0096c7);
+  padding: 2rem;
+  border-radius: 15px;
+  text-align: center;
+  color: #f0f4f8;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+  animation: popIn 0.5s ease;
+  max-width: 350px;
+  width: 90%;
+}
+
+/* Popup Animation */
+@keyframes popIn {
+  0% { transform: scale(0.7); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Popup Button */
+#popup-ok {
+  margin-top: 1rem;
+  padding: 0.6rem 1.5rem;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: bold;
+  background: linear-gradient(135deg, #00b4d8, #48cae4);
+  color: white;
+  transition: transform 0.2s ease, background 0.3s ease;
+}
+#popup-ok:hover {
+  background: linear-gradient(135deg, #48cae4, #00b4d8);
   transform: scale(1.05);
 }
